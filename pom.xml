@@ -21,6 +21,14 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Dependency for Smartystreets (Webservice) --> 
+        <dependency>
+            <groupId>com.smartystreets.api</groupId>
+            <artifactId>smartystreets-java-sdk</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+    
     </dependencies>
 
     <build>
