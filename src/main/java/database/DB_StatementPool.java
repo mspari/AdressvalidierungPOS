@@ -37,7 +37,7 @@ public class DB_StatementPool {
 
     private DB_ConnectionPool connectionPool = DB_ConnectionPool.getInstance();
     private Map<Connection, Queue<Statement>> statementMap = new HashMap();
-   
+    private Map<Connection, Map<DB_StatementType, PreparedStatement>> pstatMap = new HashMap<>();
 
     public synchronized Statement getStatement() throws SQLException {
 
@@ -56,6 +56,24 @@ public class DB_StatementPool {
         }
 
         return statement;
+    }
+
+    public synchronized PreparedStatement getPreparedStatement(DB_StatementType stmtType) throws SQLException {
+        Connection connection = connectionPool.getConnection();
+        Map<DB_StatementType, PreparedStatement> prepMap = pstatMap.get(connection);
+
+        if (prepMap == null) {
+            prepMap = new HashMap<>();
+            pstatMap.put(connection, prepMap);
+        }
+
+        PreparedStatement pStat = prepMap.get(stmtType);
+        if (pStat == null) {
+            pStat = connection.prepareStatement(stmtType.getSqlString());
+            prepMap.put(stmtType, pStat);
+        }
+
+        return pStat;
     }
 
     public synchronized void releaseStatement(Statement statement) throws SQLException {
