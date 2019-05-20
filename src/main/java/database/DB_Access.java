@@ -36,8 +36,9 @@ public class DB_Access {
         insertAddress.setString(1, address.getStreet());
         insertAddress.setInt(2, address.getHouseNr());
         int zipCode = 0;
-        int RegionID = 0;
-        ResultSet rs = stat.executeQuery("SELECT * FROM ZipCode;");
+        String region = "";
+        String country="";
+        ResultSet rs = stat.executeQuery("SELECT ZipCode FROM ZipCode WHERE ZipCode LIKE '"+address.getZipCode()+"';");
         while (rs.next()) {
             zipCode = rs.getInt("ZipCode");
         }
@@ -47,8 +48,33 @@ public class DB_Access {
             stat.executeQuery("INSERT INTO ZipCode VALUES(" + address.getZipCode() + "," + address.getCity() + ");");
         }
         insertAddress.setInt(3, zipCode);
+        rs = stat.executeQuery("SELECT * FROM Region WHERE RegionName LIKE '"+address.getRegion()+"';");
         
-
+        while(rs.next())
+        {
+            region = rs.getString("RegionID");
+        }
+        if(region.isEmpty())
+        {
+            region = address.getRegion();
+        }
+        else{
+            stat.executeQuery("INSERT INTO Region VALUES(" + address.getRegion()+ ");");
+        }
+        insertAddress.setString(4, region);
+        rs = stat.executeQuery("SELECT * FROM Country WHERE CountryLong LIKE '"+address.getCountry()+"';");
+        while(rs.next())
+        {
+            country = rs.getString("CoutryLong");
+        }
+        if(country.isEmpty())
+        {
+            country = address.getCountry();
+        }
+        else{
+            stat.executeQuery("INSERT INTO Coutry VALUES(" + address.getCountry()+ ");");
+        }
+        insertAddress.setString(5, country);
     }
 
     public String getAllTables() throws SQLException {
