@@ -7,15 +7,15 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        
-        <link rel="stylesheet" type="text/css" media="all" href="style.css" />
+
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
         <!-- Infos -->
         <div class="jumbotron text-center">
             <h1>Addressvalidation</h1>
-            <p>
+            <p id='para'>
                 Das Ziel des Projekts ist es, eine Datenbank für Kundenadressdaten (Wohnort) zu entwickeln. 
                 Diese Adressdaten werden über eine Web-GUI, die sowohl am Desktop als auch auf Mobile Devices 
                 benutzbar ist (zumindest in der Browsersimulation), eingegeben. Auch der Upload von .csv 
@@ -28,69 +28,76 @@
 
         <div class="container">
             <div class="row">
-
-                <!-- Enter Address -->
-                <div class="col-sm-5 section container-fluid text-center">
-                    <h3>Enter Address </h3>
-                    Streetname HouseNr
-                    <br>
-                    <input type="text" name="streetnamehousenr"/>
-                    <br>
-                    ZipCode
-                    <br>
-                    <input type="text" name="zipcode"/>
-                    <br>
-                    City
-                    <br>
-                    <input type="text" name="city"/>
-                    <br>
-                    Country
-                    <br>
-                    <input type="text" name="country"/>
+                <form method="GET" action="validateServlet">
+                    <!-- Enter Address -->
+                    <div class="col-sm-5 section container-fluid text-center form-group">
+                        <h3>Enter Address </h3>
+                        <label for="streetnamehousenr">Streetname HouseNr</label>
+                        <br>
+                        <input class="form-control" type="text" name="streetnamehousenr"/>
+                        <br>
+                        <label for="zipcode">ZipCode</label>
+                        <br>
+                        <input class="form-control" type="text" name="zipcode"/>
+                        <br>
+                        <label for="city">City</label>
+                        <br>
+                        <input class="form-control" type="text" name="city"/>
+                        <br>
+                        <label for="country">Country</label>
+                        <br>
+                        <input class="form-control" type="text" name="country"/><br>
+                        <div>
+                            <h1><input type="submit" value="validate" class="btn btn-success btn-block"></h1>
+                        </div> 
+                    </div>
+                </form>
+                <div class="col-sm-6">
+                    <div class="text-center">
+                        <iframe width="800" height="500" id="gmap_canvas" 
+                                src="https://maps.google.com/maps?q=fucking,Austria&t=k&z=13&ie=UTF8&iwloc=&output=embed" frameborder="1" 
+                                scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Seperator -->
-                <div class="col-sm-2 section container-fluid text-center">
+            <!-- Seperator -->
+            <div class="row" id="separator">
+                <div class=" container-fluid">
                     <h3>or</h3>        
                 </div>
+            </div>
 
-                <!-- Drop csv -->
-                <div class="col-sm-5 section container-fluid text-center">
-                    <h3>Drop csv File</h3> 
+            <!-- Drop csv -->
+            <div class="col-sm-12 section container-fluid text-center">
+                <h3>Drop csv File</h3> 
+                <form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
 
-                    <form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
+                    <fieldset>
+                        <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
 
-                        <fieldset>
-                            <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+                        <div>
+                            <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+                            <div id="filedrag">or drop files here</div>
+                        </div>
 
-                            <div>
-                                <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-                                <div id="filedrag">or drop files here</div>
-                            </div>
-
-                            <div id="submitbutton">
-                                <button type="submit">Upload Files</button>
-                            </div>
-
-                        </fieldset>
                         <div id="submitbutton">
                             <button type="submit">Upload Files</button>
                         </div>
 
-                    </form>
-
-                    <div id="messages">
-                        <p>Status Messages</p>
+                    </fieldset>
+                    <div id="submitbutton">
+                        <button type="submit">Upload Files</button>
                     </div>
 
-                    <script src="js/filedrag.js"></script>
+                </form>
+
+                <div id="messages">
+                    <p>Status Messages</p>
                 </div>
+
+                <script src="js/filedrag.js"></script>
             </div>
         </div>
-
-        <div class="text-center">
-            <h1><input type="button" value="validate" class="submitbutton"></h1>
-        </div>
-
     </body>
 </html>
