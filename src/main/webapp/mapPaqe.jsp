@@ -1,3 +1,11 @@
+<%-- 
+    Document   : indexnew
+    Created on : 27.05.2019, 14:17:05
+    Author     : Christian
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,7 +36,6 @@
 
         <div class="container">
             <div class="row">
-                <form method="GET" action="validateServlet">
                     <!-- Enter Address -->
                     <div class="col-sm-5 section container-fluid text-center form-group">
                         <h3>Enter Address </h3>
@@ -51,53 +58,16 @@
                             <h1><input type="submit" value="validate" class="btn btn-success btn-block"></h1>
                         </div> 
                     </div>
-                </form>
-                <div class="col-sm-6">
-                    <div class="text-center">
-                        <iframe width="800" height="500" id="gmap_canvas" 
-                                src="https://maps.google.com/maps?q=<%=request.getAttribute('')%>,Austria&t=k&z=13&ie=UTF8&iwloc=&output=embed" frameborder="1" 
-                                scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Seperator -->
-            <div class="row" id="separator">
-                <div class=" container-fluid">
-                    <h3>or</h3>        
-                </div>
-            </div>
-
-            <!-- Drop csv -->
-            <div class="col-sm-12 section container-fluid text-center">
-                <h3>Drop csv File</h3> 
-                <form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
-
-                    <fieldset>
-                        <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
-
-                        <div>
-                            <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-                            <div id="filedrag">or drop files here</div>
+                    <div class="col-sm-6">
+                        <div class="text-center">
+                            <!--<iframe width="800" height="500" id="gmap_canvas" 
+                                    src="<%=request.getParameter("url")%>" frameborder="1" 
+                                    scrolling="no" marginheight="0" marginwidth="0"></iframe>-->
                         </div>
-
-                        <div id="submitbutton">
-                            <button type="submit">Upload Files</button>
-                        </div>
-
-                    </fieldset>
-                    <div id="submitbutton">
-                        <button type="submit">Upload Files</button>
                     </div>
-
-                </form>
-
-                <div id="messages">
-                    <p>Status Messages</p>
-                </div>
-
-                <script src="js/filedrag.js"></script>
             </div>
-        </div>
+
+           
     </body>
 </html>

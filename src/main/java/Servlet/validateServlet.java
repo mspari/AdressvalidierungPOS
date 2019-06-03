@@ -31,7 +31,7 @@ public class validateServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("index.html").include(request, response);
+        request.getRequestDispatcher("inputPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -46,7 +46,33 @@ public class validateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String str = request.getParameter("batten");
+        if (str != null) {
+            if (str.equals("validate")) {
+                request.getRequestDispatcher("mapPage.jsp").forward(request, response);
+            }
+            if (str.equals("upload Files")) {
+                request.getRequestDispatcher("csvPage.jsp").forward(request, response);
+            }
+        }
+//        String housenr = request.getParameter("streetnamehousenr");
+//        String zipCode = request.getParameter("zipcode");
+//        String city = request.getParameter("city");
+//        String country = request.getParameter("country");
+//        String url="";
+//        System.out.println(housenr);
+//        if (!housenr.equals(null)) {
+//            housenr = housenr.replace(" ", "+");
+//            url = "https://maps.google.com/maps?q=" + zipCode + "+" + housenr + "," + country + "&t=k&z=13&ie=UTF8&iwloc=&output=embed";
+//        }
+//        
+//        System.out.println("-----URL-----\n" + url + "\n-----URL-----\n");
+//        request.setAttribute("housenr", housenr);
+//        request.setAttribute("zipCode", zipCode);
+//        request.setAttribute("city", city);
+//        request.setAttribute("housenr", country);
+//        request.setAttribute("url", url);
+        //request.getRequestDispatcher("inputPage.jsp").forward(request, response);
     }
 
     /**
@@ -60,7 +86,8 @@ public class validateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        request.getRequestDispatcher("mapPage.jsp").forward(request, response);
     }
 
     /**
