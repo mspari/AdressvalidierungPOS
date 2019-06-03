@@ -1,0 +1,119 @@
+<%-- 
+    Document   : indexnew
+    Created on : 27.05.2019, 14:17:05
+    Author     : Christian
+--%>
+
+<%@page import="data.Address"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Address Validation</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+        <!-- Infos -->
+
+        <%
+            Address correctedAddress = (Address) request.getAttribute("correctedAddress");
+        %>
+
+        <div class="container">
+            <div class="row">
+                <!-- Enter Address -->
+                <div class="col-sm-5 section container-fluid text-center form-group">
+                    <h3>Corrected Address</h3>
+
+                    <label for="streetname">Streetname </label>
+                    <br>
+                    <input class="form-control" type="text" name="streetname" value="<%=correctedAddress.getStreet()%>"/>
+                    <br>
+
+                    <label for="housenr">HouseNR </label>
+                    <br>
+                    <input class="form-control" type="text" name="housenr" value="<%=correctedAddress.getHouseNr()%>"/>
+                    <br>
+
+                    <label for="zipcode">ZipCode</label>
+                    <br>
+                    <input class="form-control" type="text" name="zipcode" value="<%=correctedAddress.getZipCode()%>"/>
+                    <br>
+
+                    <label for="city">City</label>
+                    <br>
+                    <input class="form-control" type="text" name="city" value="<%=correctedAddress.getCity()%>"/>
+                    <br>
+
+                    <label for="region">Region</label>
+                    <br>
+                    <input class="form-control" type="text" name="region" value="<%=correctedAddress.getRegion()%>"/>
+                    <br>
+
+                    <label for="country">Country</label>
+                    <br>
+                    <input class="form-control" type="text" name="country" value="<%=correctedAddress.getCountry()%>"/><br>
+                    <div>
+                        <h1><input type="submit" value="accept" class="btn btn-success btn-block"></h1>
+                    </div> 
+                </div>
+
+                <%                    String housenr = request.getParameter("streetnamehousenr");
+                    String zipCode = request.getParameter("zipcode");
+                    String city = request.getParameter("city");
+                    String country = request.getParameter("country");
+                    String url = "";
+                    System.out.println(housenr);
+                    if (!housenr.equals(null))
+                    {
+                        housenr = housenr.replace(" ", "+");
+                        url = "https://maps.google.com/maps?q=" + zipCode + "+" + housenr + "," + country + "&t=k&z=13&ie=UTF8&iwloc=&output=embed";
+                    }
+
+                    System.out.println("-----URL-----\n" + url + "\n-----URL-----\n");
+                    request.setAttribute("housenr", housenr);
+                    request.setAttribute("zipCode", zipCode);
+                    request.setAttribute("city", city);
+                    request.setAttribute("housenr", country);
+                    request.setAttribute("url", url);
+                %>
+                <div class="col-sm-6">
+                    <div class="text-center">
+                        <iframe width="800" height="500" id="gmap_canvas" 
+                                src="" frameborder="1" 
+                                scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    </div>
+                </div>
+            </div>
+
+
+    </body>
+</html>
+
+<!--
+//        String housenr = request.getParameter("streetnamehousenr");
+//        String zipCode = request.getParameter("zipcode");
+//        String city = request.getParameter("city");
+//        String country = request.getParameter("country");
+//        String url="";
+//        System.out.println(housenr);
+//        if (!housenr.equals(null)) {
+//            housenr = housenr.replace(" ", "+");
+//            url = "https://maps.google.com/maps?q=" + zipCode + "+" + housenr + "," + country + "&t=k&z=13&ie=UTF8&iwloc=&output=embed";
+//        }
+//        
+//        System.out.println("-----URL-----\n" + url + "\n-----URL-----\n");
+//        request.setAttribute("housenr", housenr);
+//        request.setAttribute("zipCode", zipCode);
+//        request.setAttribute("city", city);
+//        request.setAttribute("housenr", country);
+//        request.setAttribute("url", url);
+-->

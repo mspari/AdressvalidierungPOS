@@ -16,8 +16,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Christoph Klampfer
  */
-@WebServlet(name = "validateServlet", urlPatterns = {"/validateServlet"})
-public class validateServlet extends HttpServlet {
+@WebServlet(name = "validateServlet", urlPatterns =
+{
+    "/validateServlet"
+})
+public class validateServlet extends HttpServlet
+{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,7 +33,8 @@ public class validateServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
         request.getRequestDispatcher("inputPage.jsp").forward(request, response);
     }
@@ -45,13 +50,17 @@ public class validateServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         String str = request.getParameter("batten");
-        if (str != null) {
-            if (str.equals("validate")) {
+        if (str != null)
+        {
+            if (str.equals("validate"))
+            {
                 request.getRequestDispatcher("mapPage.jsp").forward(request, response);
             }
-            if (str.equals("upload Files")) {
+            if (str.equals("upload Files"))
+            {
                 request.getRequestDispatcher("csvPage.jsp").forward(request, response);
             }
         }
@@ -85,7 +94,8 @@ public class validateServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
 
         request.getRequestDispatcher("mapPage.jsp").forward(request, response);
     }
@@ -96,7 +106,8 @@ public class validateServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

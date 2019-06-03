@@ -6,6 +6,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>validateServlet</welcome-file>
+        <welcome-file>ValidationServlet</welcome-file>
     </welcome-file-list>
 </web-app>

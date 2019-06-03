@@ -36,33 +36,31 @@
 
         <div class="container">
             <div class="row">
-                <form method="GET" action="validateServlet">
+                <form method="POST" action="ValidationServlet">
                     <!-- Enter Address -->
                     <div class="col-sm-5 section container-fluid text-center form-group">
                         <h3>Enter Address </h3>
                         <label for="streetnamehousenr">Streetname HouseNr</label>
                         <br>
-                        <input class="form-control" type="text" name="streetnamehousenr"/>
+                        <input class="form-control" type="text" name="streetnamehousenr" value="Graazer Strasse 202"/>
                         <br>
                         <label for="zipcode">ZipCode</label>
                         <br>
-                        <input class="form-control" type="text" name="zipcode"/>
+                        <input class="form-control" type="text" name="zipcode" value="8430"/>
                         <br>
                         <label for="city">City</label>
                         <br>
-                        <input class="form-control" type="text" name="city"/>
+                        <input class="form-control" type="text" name="city" value="Kaintorf"/>
                         <br>
                         <label for="country">Country</label>
                         <br>
-                        <input class="form-control" type="text" name="country"/><br>
+                        <input class="form-control" type="text" name="country" value="at"/><br>
                         <div>
                             <h1><input type="submit" value="validate" name="batten" class="btn btn-success btn-block"></h1>
                         </div> 
                     </div>
                     <div class="col-sm-1" id="separator">
-                        <div class=" container-fluid">
-                            <h3>or</h3>        
-                        </div>
+                        <br>
                     </div>
 
                     <!-- Drop csv -->

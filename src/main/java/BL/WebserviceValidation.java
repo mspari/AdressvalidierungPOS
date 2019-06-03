@@ -33,7 +33,7 @@ public class WebserviceValidation implements StaticData
                     "{\n"
                     + "  \"addressInput\": \n"
                     + "  {\n"
-                    + "    \"mixed\": \"" + oldAddress.getStreet() + " " + oldAddress.getHouseNr() + "\",\n"
+                    + "    \"mixed\": \"" + oldAddress.getStreet() + " " + (oldAddress.getHouseNr() == 0 ? "" : oldAddress.getHouseNr()) + "\",\n"
                     + "    \"postcode\": \"" + oldAddress.getZipCode() + "\",\n"
                     + "    \"locality\": \"" + oldAddress.getCity() + "\",\n"
                     + "    \"country\": \"" + oldAddress.getCountry() + "\"\n"

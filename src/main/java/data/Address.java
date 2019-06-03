@@ -6,12 +6,22 @@ package data;
  */
 public class Address
 {
+
     private String street;
     private int houseNr;
     private int zipCode;
     private String city;
     private String region;
     private String country;
+
+    public Address(String street, int zipCode, String city, String country)
+    {
+        this.street = street;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.country = country;
+        houseNr = 0;
+    }
 
     public Address(String street, int houseNr, int zipCode, String city, String region, String country)
     {
@@ -97,5 +107,5 @@ public class Address
     {
         return "Address{" + "street=" + street + ", houseNr=" + houseNr + ", zipCode=" + zipCode + ", city=" + city + ", region=" + region + ", country=" + country + '}';
     }
-    
+
 }
