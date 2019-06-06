@@ -66,32 +66,27 @@
                     </div> 
                 </div>
 
-                <%                    String housenr = request.getParameter("streetnamehousenr");
-                    String zipCode = request.getParameter("zipcode");
-                    String city = request.getParameter("city");
-                    String country = request.getParameter("country");
+                <%
+                    String street = correctedAddress.getStreet();
+                    String zipCode = correctedAddress.getRegion();
+                    String city = correctedAddress.getCity();
+                    String country = correctedAddress.getCountry();
                     String url = "";
-                    System.out.println(housenr);
-                    if (!housenr.equals(null))
-                    {
-                        housenr = housenr.replace(" ", "+");
-                        url = "https://maps.google.com/maps?q=" + zipCode + "+" + housenr + "," + country + "&t=k&z=13&ie=UTF8&iwloc=&output=embed";
+                    System.out.println(street);
+                    if (!street.equals(null)) {
+                        street = street.replace(" ", "+");
+                        url = "https://maps.google.com/maps?q=" + city + "+" + zipCode + "+" + street + "," + country + "&t=k&z=13&ie=UTF8&iwloc=&output=embed";
+                        System.out.println(url);
                     }
-
-                    System.out.println("-----URL-----\n" + url + "\n-----URL-----\n");
-                    request.setAttribute("housenr", housenr);
+                    request.setAttribute("housenr", street);
                     request.setAttribute("zipCode", zipCode);
                     request.setAttribute("city", city);
                     request.setAttribute("housenr", country);
                     request.setAttribute("url", url);
+                    out.println(" <div class='col-sm-6' <div class='text-center'><iframe width='820' height='600' id='gmap_canvas' "
+                            + "src=" + url + " frameborder='1' scrolling='no' marginheight='0' marginwidth='0'></iframe></div></div>");
                 %>
-                <div class="col-sm-6">
-                    <div class="text-center">
-                        <iframe width="800" height="500" id="gmap_canvas" 
-                                src="" frameborder="1" 
-                                scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                    </div>
-                </div>
+
             </div>
 
 

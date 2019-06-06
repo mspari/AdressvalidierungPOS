@@ -53,8 +53,7 @@ public class WebserviceValidation implements StaticData
 
             HttpResponse response = client.execute(request);
 
-            BufferedReader bufReader = new BufferedReader(new InputStreamReader(
-                    response.getEntity().getContent()));
+            BufferedReader bufReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
 
             StringBuilder builder = new StringBuilder();
 
