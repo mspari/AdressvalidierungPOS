@@ -61,9 +61,11 @@
                     <label for="country">Country</label>
                     <br>
                     <input class="form-control" type="text" name="country" value="<%=correctedAddress.getCountry()%>"/><br>
-                    <div>
-                        <h1><input type="submit" value="accept" class="btn btn-success btn-block"></h1>
-                    </div> 
+                    <form Method="POST" action="ValidationServlet">
+                        <div>
+                            <h1><input type="submit" name="batten" value="accept" class="btn btn-success btn-block"></h1>
+                        </div>
+                    </form>
                 </div>
 
                 <%
@@ -86,29 +88,8 @@
                     out.println(" <div class='col-sm-6' <div class='text-center'><iframe width='820' height='600' id='gmap_canvas' "
                             + "src=" + url + " frameborder='1' scrolling='no' marginheight='0' marginwidth='0'></iframe></div></div>");
                 %>
-
             </div>
 
 
     </body>
 </html>
-
-<!--
-//        String housenr = request.getParameter("streetnamehousenr");
-//        String zipCode = request.getParameter("zipcode");
-//        String city = request.getParameter("city");
-//        String country = request.getParameter("country");
-//        String url="";
-//        System.out.println(housenr);
-//        if (!housenr.equals(null)) {
-//            housenr = housenr.replace(" ", "+");
-//            url = "https://maps.google.com/maps?q=" + zipCode + "+" + housenr + "," + country + "&t=k&z=13&ie=UTF8&iwloc=&output=embed";
-//        }
-//        
-//        System.out.println("-----URL-----\n" + url + "\n-----URL-----\n");
-//        request.setAttribute("housenr", housenr);
-//        request.setAttribute("zipCode", zipCode);
-//        request.setAttribute("city", city);
-//        request.setAttribute("housenr", country);
-//        request.setAttribute("url", url);
--->
