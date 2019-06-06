@@ -35,7 +35,7 @@
 
                     <label for="streetname">Streetname </label>
                     <br>
-                    <input class="form-control" type="text" name="streetname" value="<%=correctedAddress.getStreet()%>"/>
+                    <input class="form-control" type="text" name="streetname"  value="<%=correctedAddress.getStreet()%>"/>
                     <br>
 
                     <label for="housenr">HouseNR </label>

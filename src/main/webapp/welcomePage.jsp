@@ -42,19 +42,19 @@
                         <h3>Enter Address </h3>
                         <label for="streetnamehousenr">Streetname HouseNr</label>
                         <br>
-                        <input class="form-control" type="text" name="streetnamehousenr" value="Graazer Strasse 202"/>
+                        <input class="form-control" required type="text" name="streetnamehousenr" value="Graazer Strasse 202"/>
                         <br>
                         <label for="zipcode">ZipCode</label>
                         <br>
-                        <input class="form-control" type="text" name="zipcode" value="8430"/>
+                        <input class="form-control" type="text" required name="zipcode" value="8430"/>
                         <br>
                         <label for="city">City</label>
                         <br>
-                        <input class="form-control" type="text" name="city" value="Kaintorf"/>
+                        <input class="form-control" type="text" required name="city" value="Kaintorf"/>
                         <br>
                         <label for="country">Country</label>
                         <br>
-                        <input class="form-control" type="text" name="country" value="at"/><br>
+                        <input class="form-control" type="text" required name="country" value="at"/><br>
                         <div>
                             <h1><input type="submit" value="validate" name="batten" class="btn btn-success btn-block"></h1>
                         </div> 
