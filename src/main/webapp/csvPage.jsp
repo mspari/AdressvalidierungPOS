@@ -4,6 +4,9 @@
     Author     : Christian
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="data.Address"%>
+<%@page import="data.Address"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +15,14 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>YEEEEEEEEEEEET!</h1>
+        <%
+            List<Address> list = (List<Address>) request.getAttribute("addresslist");
+            for (Address address : list)
+            {
+        %>
+        <%=address.toString()%>
+        <%
+            }
+        %>
     </body>
 </html>

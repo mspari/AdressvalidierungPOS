@@ -62,7 +62,9 @@
                     <div class="col-sm-1" id="separator">
                         <br>
                     </div>
+                </form>
 
+                <form action="ValidationServlet" enctype="multipart/form-data" method="POST">
                     <!-- Drop csv -->
                     <div class="col-sm-5 section container-fluid text-center">
                         <h3>Drop csv File</h3> 
@@ -70,7 +72,7 @@
                             <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
 
                             <div>
-                                <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+                                <input type="file" id="fileselect" name="file" multiple="multiple" />
                                 <div id="filedrag">or drop files here</div>
                             </div>
 
@@ -83,14 +85,8 @@
                             <button type="submit">Upload Files</button>
                         </div>
 
-
-                        <div id="messages">
-                            <p>Status Messages</p>
-                        </div>
-
                         <script src="js/filedrag.js"></script>
                     </div>
-
                 </form>
             </div>
         </div>
