@@ -32,36 +32,36 @@
                 <!-- Enter Address -->
                 <div class="col-sm-5 section container-fluid text-center form-group">
                     <h3>Corrected Address</h3>
-
-                    <label for="streetname">Streetname </label>
-                    <br>
-                    <input class="form-control" type="text" name="streetname"  value="<%=correctedAddress.getStreet()%>"/>
-                    <br>
-
-                    <label for="housenr">HouseNR </label>
-                    <br>
-                    <input class="form-control" type="text" name="housenr" value="<%=correctedAddress.getHouseNr()%>"/>
-                    <br>
-
-                    <label for="zipcode">ZipCode</label>
-                    <br>
-                    <input class="form-control" type="text" name="zipcode" value="<%=correctedAddress.getZipCode()%>"/>
-                    <br>
-
-                    <label for="city">City</label>
-                    <br>
-                    <input class="form-control" type="text" name="city" value="<%=correctedAddress.getCity()%>"/>
-                    <br>
-
-                    <label for="region">Region</label>
-                    <br>
-                    <input class="form-control" type="text" name="region" value="<%=correctedAddress.getRegion()%>"/>
-                    <br>
-
-                    <label for="country">Country</label>
-                    <br>
-                    <input class="form-control" type="text" name="country" value="<%=correctedAddress.getCountry()%>"/><br>
                     <form Method="POST" action="ValidationServlet">
+                        <label for="streetname">Streetname </label>
+                        <br>
+                        <input class="form-control" type="text" name="streetname"  value="<%=correctedAddress.getStreet()%>"/>
+                        <br>
+
+                        <label for="housenr">HouseNR </label>
+                        <br>
+                        <input class="form-control" type="text" name="housenr" value="<%=correctedAddress.getHouseNr()%>"/>
+                        <br>
+
+                        <label for="zipcode">ZipCode</label>
+                        <br>
+                        <input class="form-control" type="text" name="zipcode" value="<%=correctedAddress.getZipCode()%>"/>
+                        <br>
+
+                        <label for="city">City</label>
+                        <br>
+                        <input class="form-control" type="text" name="city" value="<%=correctedAddress.getCity()%>"/>
+                        <br>
+
+                        <label for="region">Region</label>
+                        <br>
+                        <input class="form-control" type="text" name="region" value="<%=correctedAddress.getRegion()%>"/>
+                        <br>
+
+                        <label for="country">Country</label>
+                        <br>
+                        <input class="form-control" type="text" name="country" value="<%=correctedAddress.getCountry()%>"/><br>
+
                         <div>
                             <h1><input type="submit" name="batten" value="accept" class="btn btn-success btn-block"></h1>
                         </div>

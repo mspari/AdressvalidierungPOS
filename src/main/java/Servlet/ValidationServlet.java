@@ -34,17 +34,16 @@ import javax.servlet.http.Part;
  *
  * @author marinaspari
  */
-@WebServlet(name = "ValidationServlet", urlPatterns =
-{
-    "/ValidationServlet"
-},
-        initParams =
-        {
+@WebServlet(name = "ValidationServlet", urlPatterns
+        = {
+            "/ValidationServlet"
+        },
+        initParams
+        = {
             @WebInitParam(name = "path", value = "/var/www/upload/")
         })
 @MultipartConfig
-public class ValidationServlet extends HttpServlet
-{
+public class ValidationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,8 +55,7 @@ public class ValidationServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         request.getRequestDispatcher("welcomePage.jsp").forward(request, response);
     }
 
@@ -72,8 +70,7 @@ public class ValidationServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -87,18 +84,14 @@ public class ValidationServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
 
-        try
-        {
+        try {
 
             String str = request.getParameter("batten");
 
-            if (str != null)
-            {
-                if (str.equals("validate"))
-                {
+            if (str != null) {
+                if (str.equals("validate")) {
                     Address oldAddress = new Address(request.getParameter("streetnamehousenr"),
                             Integer.parseInt(request.getParameter("zipcode")),
                             request.getParameter("city"),
@@ -109,8 +102,7 @@ public class ValidationServlet extends HttpServlet
                     request.getRequestDispatcher("singleMapPage.jsp").forward(request, response);
                 }
 
-                if (str.equals("upload Files"))
-                {
+                if (str.equals("upload Files")) {
                     ServletConfig sc = getServletConfig();
                     String path = sc.getInitParameter("uploadpath");
 
@@ -136,24 +128,23 @@ public class ValidationServlet extends HttpServlet
                     {
                         os.print(address + "\n");
                     }
-
-                    if (str.equals("accept"))
-                    {
-                        String street = request.getParameter("streetnamehousenr");
-                        String zipCode = request.getParameter("zipcode");
-                        String city = request.getParameter("city");
-                        String country = request.getParameter("country");
-                        Address addr = new Address(street, Integer.parseInt(zipCode), city, country);
-                        DB_Access dba = DB_Access.getInstance();
-                        dba.insertAddress(addr);
-                    }
                      */
                 }
-
+                if (str.equals("accept")) {
+                    String street = request.getParameter("streetname");
+                    int housenr = Integer.parseInt(request.getParameter("housenr"));
+                    int zipCode = Integer.parseInt(request.getParameter("zipcode"));
+                    String city = request.getParameter("city");
+                    String region = request.getParameter("region");
+                    String coutry = request.getParameter("country");
+                    Address addr = new Address(street, housenr, zipCode, city, region, coutry);
+                    DB_Access dba = DB_Access.getInstance();
+                    dba.insertAddress(addr);
+                    System.out.println("TEEEEEEEEEEEEEEEEEEEEEEST------------------------------");
+                    request.getRequestDispatcher("welcomePage.jsp").forward(request, response);
+                }
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Logger.getLogger(ValidationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -164,8 +155,7 @@ public class ValidationServlet extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 }
