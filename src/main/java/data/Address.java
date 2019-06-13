@@ -108,4 +108,16 @@ public class Address
         return "Address{" + "street=" + street + ", houseNr=" + houseNr + ", zipCode=" + zipCode + ", city=" + city + ", region=" + region + ", country=" + country + '}';
     }
 
+    public String toHTMLTableRow(int index)
+    {
+        return "<tr>"
+                + "<td> <input type=\"checkbox\" name=\"cb" + index + "\"> </td>"
+                + "<td>" + street + "</td>"
+                + "<td>" + houseNr + "</td>"
+                + "<td>" + zipCode + "</td>"
+                + "<td>" + city + "</td>"
+                + "<td>" + region + "</td>"
+                + "<td>" + country + "</td>"
+                + "</tr>";
+    }
 }

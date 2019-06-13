@@ -29,6 +29,7 @@ public class WebserviceValidation implements StaticData
             HttpPost request = new HttpPost(WEBSERVICE_URL);
             request.setHeader("Authorization", USERCREDS);
             request.setHeader("content-type", CONTENTTYPE);
+            request.setHeader("Accept", "application/json");
             StringEntity requestParams = new StringEntity(
                     "{\n"
                     + "  \"addressInput\": \n"
@@ -70,13 +71,18 @@ public class WebserviceValidation implements StaticData
             JSONObject json = (JSONObject) parser.parse(builder.toString());
 
             String straße = json.get("std_addr_prim_name_full").toString();
-            int hausnr = Integer.parseInt(json.get("std_addr_prim_number").toString());
+            int hausnr = -1;
+            if (!json.get("std_addr_prim_number").toString().isEmpty())
+            {
+                hausnr = Integer.parseInt(json.get("std_addr_prim_number").toString());
+            }
             int postcode = Integer.parseInt(json.get("std_addr_postcode1").toString());
             String city = json.get("std_addr_locality_full").toString();
             String region = json.get("std_addr_region_full").toString();
             String country = json.get("std_addr_country_2char").toString();
 
-            return new Address(straße, hausnr, postcode, city, region, country);
+            Address newAddress = new Address(straße, hausnr, postcode, city, region, country);
+            return newAddress;
         }
     }
 

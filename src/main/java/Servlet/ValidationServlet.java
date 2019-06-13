@@ -16,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,15 +38,18 @@ import javax.servlet.http.Part;
  * @author marinaspari
  */
 @WebServlet(name = "ValidationServlet", urlPatterns
-        = {
+        =
+        {
             "/ValidationServlet"
         },
         initParams
-        = {
+        =
+        {
             @WebInitParam(name = "path", value = "/var/www/upload/")
         })
 @MultipartConfig
-public class ValidationServlet extends HttpServlet {
+public class ValidationServlet extends HttpServlet
+{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,7 +61,8 @@ public class ValidationServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         request.getRequestDispatcher("welcomePage.jsp").forward(request, response);
     }
 
@@ -70,7 +77,8 @@ public class ValidationServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
 
@@ -84,14 +92,18 @@ public class ValidationServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
 
-        try {
+        try
+        {
 
             String str = request.getParameter("batten");
 
-            if (str != null) {
-                if (str.equals("validate")) {
+            if (str != null)
+            {
+                if (str.equals("validate"))
+                {
                     Address oldAddress = new Address(request.getParameter("streetnamehousenr"),
                             Integer.parseInt(request.getParameter("zipcode")),
                             request.getParameter("city"),
@@ -102,7 +114,8 @@ public class ValidationServlet extends HttpServlet {
                     request.getRequestDispatcher("singleMapPage.jsp").forward(request, response);
                 }
 
-                if (str.equals("upload Files")) {
+                if (str.equals("upload Files"))
+                {
                     ServletConfig sc = getServletConfig();
                     String path = sc.getInitParameter("uploadpath");
 
@@ -118,19 +131,20 @@ public class ValidationServlet extends HttpServlet {
 
                     File file = new File(realpath.toUri());
                     List<Address> addresslist = InputData.readCsv(file);
+                    List<Address> correctedAddresses = new ArrayList<>();
 
-                    request.setAttribute("addresslist", addresslist);
-                    request.getRequestDispatcher("csvPage.jsp").forward(request, response);
-
-                    /*
-                    ServletOutputStream os = response.getOutputStream();
                     for (Address address : addresslist)
                     {
-                        os.print(address + "\n");
+                        Address newAddress = WebserviceValidation.executeWebserviceVaidation(address);
+                        correctedAddresses.add(newAddress);
                     }
-                     */
+
+                    request.getSession().removeAttribute("addresslist");
+                    request.getSession().setAttribute("addresslist", correctedAddresses);
+                    request.getRequestDispatcher("csvPage.jsp").forward(request, response);
                 }
-                if (str.equals("accept")) {
+                if (str.equals("accept"))
+                {
                     String street = request.getParameter("streetname");
                     int housenr = Integer.parseInt(request.getParameter("housenr"));
                     int zipCode = Integer.parseInt(request.getParameter("zipcode"));
@@ -140,12 +154,35 @@ public class ValidationServlet extends HttpServlet {
                     Address addr = new Address(street, housenr, zipCode, city, region, coutry);
                     DB_Access dba = DB_Access.getInstance();
                     dba.insertAddress(addr);
-                    System.out.println("TEEEEEEEEEEEEEEEEEEEEEEST------------------------------");
-                    request.getRequestDispatcher("welcomePage.jsp").forward(request, response);
+                    request.getRequestDispatcher("successfullySaved.jsp").forward(request, response);
+                }
+
+                if (str.equals("accept selected"))
+                {
+                    List<Address> acceptedList = new ArrayList<>();
+                    List<Address> addresslist = (List<Address>) request.getSession().getAttribute("addresslist");
+                    for (int i = 0; i < addresslist.size(); i++)
+                    {
+                        if (request.getParameter("cb" + i) != null)
+                        {
+                            acceptedList.add(addresslist.get(i));
+                        }
+                    }
+
+                    for (Address address : acceptedList)
+                    {
+                        DB_Access dba = DB_Access.getInstance();
+                        dba.insertAddress(address);
+                    }
+                    request.getRequestDispatcher("successfullySaved.jsp").forward(request, response);
+
                 }
             }
-        } catch (Exception ex) {
-            Logger.getLogger(ValidationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            request.getRequestDispatcher("unexpectedError.jsp").forward(request, response);
         }
     }
 
@@ -155,7 +192,8 @@ public class ValidationServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 }

@@ -31,7 +31,6 @@ public class InputData
         {
             String[] parts = s.split(";");
             Address addr = new Address(parts[0], Integer.parseInt(parts[1]), parts[2], parts[3]);
-            System.out.println(addr);
             adressen.add(addr);
         }
         return adressen;
