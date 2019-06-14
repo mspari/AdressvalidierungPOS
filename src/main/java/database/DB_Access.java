@@ -90,6 +90,9 @@ public class DB_Access
 
         insertAddress.setString(5, country);
         insertAddress.execute();
+        
+        stmtPool.releaseStatement(stat);
+        stmtPool.releaseStatement(insertAddress);
     }
 
     public String getAllTables() throws SQLException
