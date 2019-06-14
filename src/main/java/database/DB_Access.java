@@ -40,54 +40,55 @@ public class DB_Access
         Statement stat = stmtPool.getStatement();
         insertAddress.setString(1, address.getStreet());
         insertAddress.setInt(2, address.getHouseNr());
-        int zipCode = 0;
-        int region = 0;
+        int zipCode = -1;
+        int region = -1;
         String country = "";
-        ResultSet rs = stat.executeQuery("SELECT ZipCode FROM ZipCode WHERE ZipCode LIKE '" + address.getZipCode() + "';");
+        ResultSet rs = stat.executeQuery("SELECT ZipCode FROM ZipCode WHERE ZipCode=" + address.getZipCode() + ";");
         while (rs.next())
         {
             zipCode = rs.getInt("ZipCode");
+            break;
         }
-        if (zipCode == 0)
+        if (zipCode == -1)
         {
+            stat.execute("INSERT INTO ZipCode VALUES('" + address.getZipCode() + "','" + address.getCity() + "');");
             zipCode = address.getZipCode();
         }
-        else
-        {
-            stat.executeQuery("INSERT INTO ZipCode VALUES(" + address.getZipCode() + "," + address.getCity() + ");");
-        }
         insertAddress.setInt(3, zipCode);
-        insertAddress.setString(4, address.getCity());
-        rs = stat.executeQuery("SELECT * FROM Region WHERE RegionName LIKE '" + address.getRegion() + "';");
 
+        if (address.getRegion() == null || address.getRegion().equals(""))
+        {
+            address.setRegion("Undefined");
+        }
+        rs = stat.executeQuery("SELECT * FROM Region WHERE RegionName LIKE '" + address.getRegion() + "';");
         while (rs.next())
         {
             region = rs.getInt("RegionID");
+            break;
         }
-        if (region == 0)
+        if (region == -1)
         {
-            region = 1;
+            stat.execute("INSERT INTO Region(RegionName) VALUES('" + address.getRegion() + "');");
+            rs = stat.executeQuery("SELECT * FROM Region WHERE RegionName LIKE '" + address.getRegion() + "';");
+            while (rs.next())
+            {
+                region = rs.getInt("RegionID");
+                break;
+            }
         }
-        else
-        {
-            stat.executeQuery("INSERT INTO Region(RegionID,RegionName) VALUES(" + region + ";" + address.getRegion() + ");");
-        }
+        insertAddress.setInt(4, region);
 
-        insertAddress.setInt(5, region);
-        rs = stat.executeQuery("SELECT * FROM Country WHERE CountryLong LIKE '" + address.getCountry() + "';");
+        if (address.getCountry() == null || address.getCountry().equals(""))
+        {
+            address.setCountry("XX");
+        }
+        rs = stat.executeQuery("SELECT * FROM Country WHERE CountryShort LIKE '" + address.getCountry() + "';");
         while (rs.next())
         {
-            country = rs.getString("CoutryLong");
+            country = rs.getString("CountryShort");
         }
-        if (country.isEmpty())
-        {
-            country = address.getCountry();
-        }
-        else
-        {
-            stat.executeQuery("INSERT INTO Coutry VALUES(" + address.getCountry() + ");");
-        }
-        insertAddress.setString(6, country);
+
+        insertAddress.setString(5, country);
         insertAddress.execute();
     }
 
@@ -113,8 +114,7 @@ public class DB_Access
         DB_Access dba = DB_Access.getInstance();
         try
         {
-            String out = dba.getAllTables();
-            System.out.println(out);
+            dba.insertAddress(new Address("krottendorf", 2345, "ads", "AT"));
         }
         catch (SQLException ex)
         {
