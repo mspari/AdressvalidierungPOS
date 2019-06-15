@@ -72,7 +72,7 @@
                     </div>
 
                     <%
-                        String street = correctedAddress.getStreet();
+                        String street = correctedAddress.getStreet()+"+"+correctedAddress.getHouseNr();
                         String zipCode = correctedAddress.getRegion();
                         String city = correctedAddress.getCity();
                         String country = correctedAddress.getCountry();
@@ -81,6 +81,7 @@
                         if (!street.equals(null))
                         {
                             street = street.replace(" ", "+");
+                            city = city.replace(" ", "+");
                             url = "https://maps.google.com/maps?q=" + city + "+" + zipCode + "+" + street + "," + country + "&t=k&z=13&ie=UTF8&iwloc=&output=embed";
                             System.out.println(url);
                         }
