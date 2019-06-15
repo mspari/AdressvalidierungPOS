@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlet;
 
 import BL.InputData;
@@ -17,14 +12,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -63,6 +53,7 @@ public class ValidationServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        //called only the first time when the Servlet is started
         request.getRequestDispatcher("welcomePage.jsp").forward(request, response);
     }
 
@@ -79,6 +70,7 @@ public class ValidationServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        //open the welcome page
         processRequest(request, response);
     }
 
@@ -94,14 +86,14 @@ public class ValidationServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-
         try
         {
-
+            // "batten" stores the value of the clicked button to take further steps
             String str = request.getParameter("batten");
 
             if (str != null)
             {
+                // executed when a user wants to validate a single address
                 if (str.equals("validate"))
                 {
                     Address oldAddress = new Address(request.getParameter("streetnamehousenr"),
@@ -114,6 +106,7 @@ public class ValidationServlet extends HttpServlet
                     request.getRequestDispatcher("singleMapPage.jsp").forward(request, response);
                 }
 
+                // executed when a user uploads a csv-file with multiple addresses
                 if (str.equals("upload Files"))
                 {
                     ServletConfig sc = getServletConfig();
@@ -143,6 +136,8 @@ public class ValidationServlet extends HttpServlet
                     request.getSession().setAttribute("addresslist", correctedAddresses);
                     request.getRequestDispatcher("csvPage.jsp").forward(request, response);
                 }
+                
+                // executed if a user accepts a single address to store it in the database
                 if (str.equals("accept"))
                 {
                     String street = request.getParameter("streetname");
@@ -157,6 +152,8 @@ public class ValidationServlet extends HttpServlet
                     request.getRequestDispatcher("successfullySaved.jsp").forward(request, response);
                 }
 
+                // executed when a user requests the correction of multiple addresses
+                // and wants to write the selected ones into the db (accept them)
                 if (str.equals("accept selected"))
                 {
                     List<Address> acceptedList = new ArrayList<>();
@@ -175,13 +172,13 @@ public class ValidationServlet extends HttpServlet
                         dba.insertAddress(address);
                     }
                     request.getRequestDispatcher("successfullySaved.jsp").forward(request, response);
-
                 }
             }
         }
+        // in case of any Exception, an Error page is opened
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             request.getRequestDispatcher("unexpectedError.jsp").forward(request, response);
         }
     }
