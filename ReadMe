@@ -3,6 +3,7 @@ THIS IS THE README FILE FOR POS-PROJECT ADDRESSVALIDATION
 IDE: Netbeans
 Projecttype: WebProject
 Build-Management: Maven
+Scrum Board: https://trello.com/b/pP4ShxrV/adressvalidierung-für-kundendaten
 
 The idea of this project is to give users the possibility to cleanse their address data and store it into 
 a database for further usage.
