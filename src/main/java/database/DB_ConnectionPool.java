@@ -14,7 +14,8 @@ import java.util.LinkedList;
  *
  * @author Christian
  */
-public class DB_ConnectionPool implements DB_Config {
+public class DB_ConnectionPool implements DB_Config
+{
 
     //implement ConnectionPool as Singleton
     private static DB_ConnectionPool theInstance;
@@ -22,24 +23,37 @@ public class DB_ConnectionPool implements DB_Config {
     private final int MAX_SIZE = 100;
     private int numConns = 0;
 
-    public static DB_ConnectionPool getInstance() {
-        if (theInstance == null) {
+    /**
+    Returns the one and only Instance of the class DB_ConnectionPool class
+    @return 
+     */
+    public static DB_ConnectionPool getInstance()
+    {
+        if (theInstance == null)
+        {
             theInstance = new DB_ConnectionPool();
         }
         return theInstance;
     }
 
-    private DB_ConnectionPool() {
-        try {
+    private DB_ConnectionPool()
+    {
+        try
+        {
             Class.forName(DB_DRIVER);
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (ClassNotFoundException ex)
+        {
             throw new RuntimeException(ex.toString());
         }
     }
 
-    public Connection getConnection() throws SQLException {
-        if (connectionPool.isEmpty()) {
-            if (numConns == MAX_SIZE) {
+    public Connection getConnection() throws SQLException
+    {
+        if (connectionPool.isEmpty())
+        {
+            if (numConns == MAX_SIZE)
+            {
                 throw new RuntimeException("Connection limit reached - try again later");
             }
             Connection connection = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWORD);
@@ -49,9 +63,12 @@ public class DB_ConnectionPool implements DB_Config {
         return connectionPool.poll();
     }
 
-    public void releaseConnection(Connection connection) {
-        if (!connectionPool.isEmpty()) {
+    public void releaseConnection(Connection connection)
+    {
+        if (!connectionPool.isEmpty())
+        {
             connectionPool.offer(connection);
+            numConns--;
         }
     }
 }

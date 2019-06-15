@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import data.Address;
@@ -20,6 +15,10 @@ public class DB_Access
 
     private static DB_Access theInstance;
 
+    /**
+    Returns "the" instance of the DB_Access class
+    @return 
+     */
     public static DB_Access getInstance()
     {
         if (theInstance == null)
@@ -34,15 +33,24 @@ public class DB_Access
     }
     private DB_StatementPool stmtPool = DB_StatementPool.getInstance();
 
+    /**
+    Inserts the address, passed as Parameter into the current connected DB
+    (credentials can be found in DB_Config)
+    @param address
+    @throws SQLException 
+     */
     public void insertAddress(Address address) throws SQLException
     {
         PreparedStatement insertAddress = stmtPool.getPreparedStatement(DB_StatementType.INSERT_ADDRESS);
         Statement stat = stmtPool.getStatement();
         insertAddress.setString(1, address.getStreet());
         insertAddress.setInt(2, address.getHouseNr());
+
         int zipCode = -1;
         int region = -1;
         String country = "";
+
+        // check whether ZipCode is already in the database, otherwise insert it (for the FK)
         ResultSet rs = stat.executeQuery("SELECT ZipCode FROM ZipCode WHERE ZipCode=" + address.getZipCode() + ";");
         while (rs.next())
         {
@@ -51,11 +59,19 @@ public class DB_Access
         }
         if (zipCode == -1)
         {
-            stat.execute("INSERT INTO ZipCode VALUES('" + address.getZipCode() + "','" + address.getCity() + "');");
+            PreparedStatement prepStat = stmtPool.getPreparedStatement(DB_StatementType.INSERT_ZIPCODE);
+
+            prepStat.setInt(1, address.getZipCode());
+            prepStat.setString(2, address.getCity());
+            prepStat.execute();
             zipCode = address.getZipCode();
+
+            stmtPool.releaseStatement(stat);
         }
         insertAddress.setInt(3, zipCode);
 
+        // check whether Region is already  in the database, otherwise insert it (for the FK)
+        // if address doesn't have a region, set it as undefined
         if (address.getRegion() == null || address.getRegion().equals(""))
         {
             address.setRegion("Undefined");
@@ -68,16 +84,21 @@ public class DB_Access
         }
         if (region == -1)
         {
-            stat.execute("INSERT INTO Region(RegionName) VALUES('" + address.getRegion() + "');");
+            PreparedStatement prepStat = stmtPool.getPreparedStatement(DB_StatementType.INSERT_REGION);
+            prepStat.setString(1, address.getRegion());
+            prepStat.execute();
+            
             rs = stat.executeQuery("SELECT * FROM Region WHERE RegionName LIKE '" + address.getRegion() + "';");
             while (rs.next())
             {
                 region = rs.getInt("RegionID");
                 break;
             }
+            stmtPool.releaseStatement(prepStat);
         }
         insertAddress.setInt(4, region);
 
+        // get Country FK from Country Table (for FK)
         if (address.getCountry() == null || address.getCountry().equals(""))
         {
             address.setCountry("XX");
@@ -87,14 +108,20 @@ public class DB_Access
         {
             country = rs.getString("CountryShort");
         }
-
         insertAddress.setString(5, country);
+
+        //insert the Address into the AddressTable
         insertAddress.execute();
-        
+
         stmtPool.releaseStatement(stat);
         stmtPool.releaseStatement(insertAddress);
     }
 
+    /**
+    FOR DEVELOPMENT PURPOSES: get the schema of all tables in the DB
+    @return
+    @throws SQLException 
+     */
     public String getAllTables() throws SQLException
     {
         String out = "";
@@ -112,16 +139,17 @@ public class DB_Access
         return out;
     }
 
+    /*
     public static void main(String[] args)
     {
         DB_Access dba = DB_Access.getInstance();
         try
         {
-            dba.insertAddress(new Address("krottendorf", 2345, "ads", "AT"));
+            dba.getAllTables();
         }
         catch (SQLException ex)
         {
             System.out.println(ex.toString());
         }
-    }
+    }*/
 }

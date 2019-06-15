@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 /**
@@ -11,8 +6,10 @@ package database;
  */
 public enum DB_StatementType
 {
-
-    INSERT_ADDRESS("INSERT INTO Address(Street, HouseNr, ZipCode, Region, Country) VALUES(?,?,?,?,?);");
+    // Prepared statement to insert into the tables
+    INSERT_ADDRESS("INSERT INTO Address(Street, HouseNr, ZipCode, Region, Country) VALUES(?,?,?,?,?);"),
+    INSERT_ZIPCODE("INSERT INTO ZipCode VALUES(?,?);"),
+    INSERT_REGION("INSERT INTO Region(RegionName) VALUES(?);");
 
     String sqlString;
 
