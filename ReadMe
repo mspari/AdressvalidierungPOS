@@ -1,1 +1,33 @@
 THIS IS THE README FILE FOR POS-PROJECT ADDRESSVALIDATION
+
+IDE: Netbeans
+Projecttype: WebProject
+Build-Management: Maven
+
+The idea of this project is to give users the possibility to cleanse their address data and store it into 
+a database for further usage.
+
+Please just clone our Project and Start it. 
+You will see a startpage with two different options: 
+- on the left side to validate a single Address by typing it
+- on the right site the possibility to upload a csv-File with address data
+
+If you decide to validate a single address, make sure to fill out all fields and then press the button "validate". It will
+forward you to another page where you get a suggestion for correcting your address. If the address is still incorrect, the 
+webservice couldn't find any improvements for your address. If you want to adapt you address before storing it into the
+database, feel free to chance it as you want. Please note that the houseNr mustn't have any letters in it!!
+On the right site of the currently displayed page, you can see a map where the corrected address is displayed.
+If you feel ready to insert your address into the database, just click the button "accept".
+
+In case you want to validate multiple addresses with just one call, you can find a sample file under res/testdata.csv. Please
+note that it must be a csv file and the format must exactly match in order to get a successful result. Unfortunately,
+the drag'n'drop doesn't work on all browsers anymore... 
+After clicking upload file, it can take a few moments (depending on the speed of you internet connection) until you get a 
+table with corrections displayed. Just tick those which you want to store in your database and hit "accept selected". 
+
+Sometimes, the database and the webservice don't work as expected - it's only freeware...
+
+If you've got any further questions, don't hesitate and contact us:
+Christian Gutmann: gutchc15@htl-kaindorf.ac.at
+Christoph Klampfer @klachc15@htl-kaindorf.ac.at
+Marina Spari: spamac15@htl-kaindorf.ac.at
