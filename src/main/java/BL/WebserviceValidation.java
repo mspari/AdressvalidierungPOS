@@ -60,7 +60,6 @@ public class WebserviceValidation implements StaticData
                     + "}"
             );
             request.setEntity(requestParams);
-            System.out.println(requestParams);
 
             HttpResponse response = client.execute(request);
 
