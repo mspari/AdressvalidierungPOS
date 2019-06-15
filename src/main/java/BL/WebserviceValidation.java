@@ -4,9 +4,6 @@ import data.Address;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -22,6 +19,17 @@ import org.json.simple.parser.JSONParser;
 public class WebserviceValidation implements StaticData
 {
 
+    /**
+    Takes an Address and return the validated Version of it.
+    One address is taken, sent to the Webservice and received corrected 
+    (if this was possible) in a JSON Format. This JSON is being formatted as 
+    and Address and returned to the caller of this method.
+    
+    @param oldAddress
+    @return
+    @throws IOException
+    @throws Exception 
+    */
     public static Address executeWebserviceVaidation(Address oldAddress) throws IOException, Exception
     {
         try (CloseableHttpClient client = HttpClientBuilder.create().build())
@@ -29,7 +37,7 @@ public class WebserviceValidation implements StaticData
             HttpPost request = new HttpPost(WEBSERVICE_URL);
             request.setHeader("Authorization", USERCREDS);
             request.setHeader("content-type", CONTENTTYPE);
-            request.setHeader("Accept", "application/json");
+            request.setHeader("Accept", ACCEPTTYPE);
             StringEntity requestParams = new StringEntity(
                     "{\n"
                     + "  \"addressInput\": \n"
@@ -86,6 +94,7 @@ public class WebserviceValidation implements StaticData
         }
     }
 
+    /*
     public static void main(String[] args)
     {
         try
@@ -98,7 +107,7 @@ public class WebserviceValidation implements StaticData
             System.out.println("");
             System.out.println("");
 
-            /***************************************************************************/
+            
             oldAddress = new Address("krotentorf", 238, 8564, "krotttendorf", "AT");
             newAddress = executeWebserviceVaidation(oldAddress);
             System.err.println(oldAddress);
@@ -110,4 +119,5 @@ public class WebserviceValidation implements StaticData
             Logger.getLogger(WebserviceValidation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+     */
 }

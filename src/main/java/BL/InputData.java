@@ -21,6 +21,16 @@ import data.Address;
 public class InputData
 {
 
+    /** 
+    Method which takes a csv File with Addresses, one per line.
+    Reads the Addresses and returns a List of them
+    -> if the address doesn't match the desired format, it'll be ignored
+    
+    @param file
+    @return 
+    @throws FileNotFoundException
+    @throws IOException 
+     */
     public static List<Address> readCsv(File file) throws FileNotFoundException, IOException
     {
         List<Address> adressen = new LinkedList<>();
@@ -30,8 +40,22 @@ public class InputData
         while ((s = br.readLine()) != null)
         {
             String[] parts = s.split(";");
-            Address addr = new Address(parts[0], Integer.parseInt(parts[1]), parts[2], parts[3]);
-            adressen.add(addr);
+            if (parts.length == 4)
+            {
+                try
+                {
+                    Address addr = new Address(parts[0], Integer.parseInt(parts[1]), parts[2], parts[3]);
+                    adressen.add(addr);
+                }
+                catch (NumberFormatException ex)
+                {
+                    //skip address
+                }
+            }
+            else
+            {
+                //skip address
+            }
         }
         return adressen;
     }
