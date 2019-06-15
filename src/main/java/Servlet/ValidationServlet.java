@@ -124,19 +124,29 @@ public class ValidationServlet extends HttpServlet
 
                     File file = new File(realpath.toUri());
                     List<Address> addresslist = InputData.readCsv(file);
-                    List<Address> correctedAddresses = new ArrayList<>();
 
-                    for (Address address : addresslist)
+                    if (addresslist.size() != 0)
                     {
-                        Address newAddress = WebserviceValidation.executeWebserviceVaidation(address);
-                        correctedAddresses.add(newAddress);
-                    }
 
-                    request.getSession().removeAttribute("addresslist");
-                    request.getSession().setAttribute("addresslist", correctedAddresses);
-                    request.getRequestDispatcher("csvPage.jsp").forward(request, response);
+                        List<Address> correctedAddresses = new ArrayList<>();
+
+                        for (Address address : addresslist)
+                        {
+                            Address newAddress = WebserviceValidation.executeWebserviceVaidation(address);
+                            correctedAddresses.add(newAddress);
+                        }
+
+                        request.getSession().removeAttribute("addresslist");
+                        request.getSession().setAttribute("addresslist", correctedAddresses);
+                        request.getRequestDispatcher("csvPage.jsp").forward(request, response);
+
+                    }
+                    else
+                    {
+                        throw new RuntimeException("Error with reading the File!");
+                    }
                 }
-                
+
                 // executed if a user accepts a single address to store it in the database
                 if (str.equals("accept"))
                 {
@@ -178,7 +188,8 @@ public class ValidationServlet extends HttpServlet
         // in case of any Exception, an Error page is opened
         catch (Exception ex)
         {
-            //ex.printStackTrace();
+            ex.printStackTrace();
+            request.setAttribute("exceptiontype", ex.getMessage());
             request.getRequestDispatcher("unexpectedError.jsp").forward(request, response);
         }
     }

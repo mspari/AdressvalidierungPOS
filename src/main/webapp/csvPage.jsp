@@ -23,14 +23,16 @@
     </head>
 
     <body>
-
+        <div class="col-sm-12">
+            <h3>Corrected Address</h3>
+        </div>
         <form action="ValidationServlet" method="post">
-            
+
             <%
                 List<Address> addresslist = (List<Address>) session.getAttribute("addresslist");
             %>
 
-            <table>
+            <table class="table">
                 <%
                     for (int i = 0; i < addresslist.size(); i++)
                     {

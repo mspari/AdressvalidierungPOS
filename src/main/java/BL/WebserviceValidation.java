@@ -4,6 +4,7 @@ import data.Address;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import javax.management.RuntimeErrorException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -29,7 +30,7 @@ public class WebserviceValidation implements StaticData
     @return
     @throws IOException
     @throws Exception 
-    */
+     */
     public static Address executeWebserviceVaidation(Address oldAddress) throws IOException, Exception
     {
         try (CloseableHttpClient client = HttpClientBuilder.create().build())
@@ -59,6 +60,7 @@ public class WebserviceValidation implements StaticData
                     + "}"
             );
             request.setEntity(requestParams);
+            System.out.println(requestParams);
 
             HttpResponse response = client.execute(request);
 
@@ -73,24 +75,32 @@ public class WebserviceValidation implements StaticData
                 builder.append(line);
                 builder.append(System.lineSeparator());
             }
+            System.out.println(builder.toString());
 
             //JSON Parser
             JSONParser parser = new JSONParser();
-            JSONObject json = (JSONObject) parser.parse(builder.toString());
-
-            String straße = json.get("std_addr_prim_name_full").toString();
-            int hausnr = -1;
-            if (!json.get("std_addr_prim_number").toString().isEmpty())
+            if (parser != null && builder != null)
             {
-                hausnr = Integer.parseInt(json.get("std_addr_prim_number").toString());
-            }
-            int postcode = Integer.parseInt(json.get("std_addr_postcode1").toString());
-            String city = json.get("std_addr_locality_full").toString();
-            String region = json.get("std_addr_region_full").toString();
-            String country = json.get("std_addr_country_2char").toString();
+                JSONObject json = (JSONObject) parser.parse(builder.toString());
 
-            Address newAddress = new Address(straße, hausnr, postcode, city, region, country);
-            return newAddress;
+                String straße = json.get("std_addr_prim_name_full").toString();
+                int hausnr = -1;
+                if (!json.get("std_addr_prim_number").toString().isEmpty())
+                {
+                    hausnr = Integer.parseInt(json.get("std_addr_prim_number").toString());
+                }
+                int postcode = Integer.parseInt(json.get("std_addr_postcode1").toString());
+                String city = json.get("std_addr_locality_full").toString();
+                String region = json.get("std_addr_region_full").toString();
+                String country = json.get("std_addr_country_2char").toString();
+
+                Address newAddress = new Address(straße, hausnr, postcode, city, region, country);
+                return newAddress;
+            }
+            else
+            {
+                throw new RuntimeException("Error during the Webservice Validation!");
+            }
         }
     }
 
